@@ -10,6 +10,7 @@ const ServiceProcess = dynamic(() => import("@/components/ServiceProcess"));
 const ServiceCoverage = dynamic(() => import("@/components/ServiceCoverage"));
 const Reviews = dynamic(() => import("@/components/Reviews"));
 const Contact = dynamic(() => import("@/components/Contact"));
+const Location = dynamic(() => import("@/components/Location"));
 const CallBackPopup = dynamic(() => import("@/components/CallBackPopup"), { ssr: false });
 // We'll skip Testimonials, Gallery, and FAQ structurally for brevity but normally they'd be here.
 
@@ -27,6 +28,7 @@ export default function Home() {
                 <ServiceCoverage />
                 <Reviews />
                 <Contact />
+                <Location />
             </main>
             <footer className="bg-primary text-white py-12 text-center">
                 <div className="container mx-auto px-6">

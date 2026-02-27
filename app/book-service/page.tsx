@@ -194,6 +194,29 @@ export default function BookServicePage() {
                         </form>
                     </div>
                 </motion.div>
+
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: 0.2 }}
+                    className="mt-8 bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100"
+                >
+                    <div className="bg-primary px-8 py-4 text-white">
+                        <h2 className="text-lg font-bold">Our Location</h2>
+                        <p className="text-sm text-primary-100 opacity-90">Digital Display Panel Solution – Saini Compound, Lohia Nagar, Ghaziabad, Uttar Pradesh 201001</p>
+                    </div>
+                    <iframe
+                        src="https://www.google.com/maps?q=Digital+Display+Panel+Solution+Saini+Compound+Lohia+Nagar+Ghaziabad&output=embed"
+                        width="100%"
+                        height="400"
+                        style={{ border: 0 }}
+                        allowFullScreen={true}
+                        loading="lazy"
+                        referrerPolicy="no-referrer-when-downgrade"
+                        title="Digital Display Panel Solution Location"
+                        className="w-full block"
+                    ></iframe>
+                </motion.div>
             </div>
         </div>
     );
