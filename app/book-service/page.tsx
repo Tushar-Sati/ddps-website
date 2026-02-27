@@ -7,7 +7,7 @@ import Link from "next/link";
 
 export default function BookServicePage() {
     const router = useRouter();
-    const [isAuth, setIsAuth] = useState(false);
+    const [userEmail, setUserEmail] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
@@ -16,7 +16,7 @@ export default function BookServicePage() {
         if (!auth) {
             router.push("/login");
         } else {
-            setIsAuth(true);
+            setUserEmail(auth);
         }
     }, [router]);
 
@@ -42,9 +42,24 @@ export default function BookServicePage() {
 
         const complaintId = `DDPS-${year}-${currentCount.toString().padStart(4, '0')}`;
 
-        // Append generated ID to form payload
+        // Append generated ID and User Email to form payload
         const payload = Object.fromEntries(formData);
         payload.complaintId = complaintId;
+        payload.userEmail = userEmail || "Guest";
+
+        // Save local tracking mapping
+        const rawComplaints = localStorage.getItem("ddps_complaints");
+        const complaints = rawComplaints ? JSON.parse(rawComplaints) : [];
+        complaints.push({
+            id: complaintId,
+            userEmail: payload.userEmail,
+            date: new Date().toISOString(),
+            status: "Pending",
+            service: payload.service,
+            address: payload.address,
+            message: payload.message,
+        });
+        localStorage.setItem("ddps_complaints", JSON.stringify(complaints));
 
         try {
             const res = await fetch("/api/book-service", {
@@ -73,7 +88,7 @@ export default function BookServicePage() {
         router.push("/login");
     };
 
-    if (!isAuth) {
+    if (!userEmail) {
         return (
             <div className="min-h-screen bg-gray-50 flex items-center justify-center">
                 <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full"></div>
