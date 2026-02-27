@@ -124,11 +124,12 @@ export default function Contact() {
 
                     <div className="h-full min-h-[400px] bg-gray-100 rounded-3xl overflow-hidden relative shadow-lg">
                         <iframe
-                            src="https://www.google.com/maps?q=SAINI+COMPOUND+B-59A+near+Water+Tank+Block+G+Lohia+Nagar+Ghaziabad+Uttar+Pradesh+201001&output=embed"
+                            src="https://www.google.com/maps?q=Digital+Display+Panel+solution,+SAINI+COMPOUND,+B-59A,+near+WATER+TANK,+Block+G,+Lohia+Nagar,+Ghaziabad,+Uttar+Pradesh+201001&output=embed"
                             className="absolute inset-0 w-full h-full border-0"
                             allowFullScreen={true}
                             loading="lazy"
                             referrerPolicy="no-referrer-when-downgrade"
+                            title="Digital Display Panel Solution Location"
                         ></iframe>
                     </div>
                 </div>
