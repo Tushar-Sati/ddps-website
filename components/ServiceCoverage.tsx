@@ -41,11 +41,15 @@ export default function ServiceCoverage() {
                         <div className="aspect-[4/3] bg-gray-200 rounded-3xl overflow-hidden shadow-2xl relative">
                             <div className="absolute inset-0 bg-gradient-to-tr from-accent/20 to-transparent pointer-events-none absolute z-10"></div>
                             <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d112001.35061633096!2d77.34759685!3d28.690899!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cf1729fa83f53%3A0xcfabc1cd9cc273db!2sGhaziabad%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
-                                className="absolute inset-0 w-full h-full border-0 grayscale hover:grayscale-0 transition-all duration-700"
+                                src="https://www.google.com/maps?q=Digital+Display+Panel+solution,+SAINI+COMPOUND,+B-59A,+near+WATER+TANK,+Block+G,+Lohia+Nagar,+Ghaziabad,+Uttar+Pradesh+201001&output=embed"
+                                width="100%"
+                                height="400"
+                                style={{ border: 0 }}
                                 allowFullScreen={true}
                                 loading="lazy"
                                 referrerPolicy="no-referrer-when-downgrade"
+                                title="Digital Display Panel Solution Location"
+                                className="absolute inset-0 w-full h-full border-0 grayscale hover:grayscale-0 transition-all duration-700"
                             ></iframe>
                         </div>
                     </motion.div>

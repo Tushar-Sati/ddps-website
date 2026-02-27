@@ -203,10 +203,10 @@ export default function BookServicePage() {
                 >
                     <div className="bg-primary px-8 py-4 text-white">
                         <h2 className="text-lg font-bold">Our Location</h2>
-                        <p className="text-sm text-primary-100 opacity-90">Digital Display Panel Solution – Saini Compound, Lohia Nagar, Ghaziabad, Uttar Pradesh 201001</p>
+                        <p className="text-sm text-primary-100 opacity-90">Digital Display Panel Solution, SAINI COMPOUND, B-59A, near WATER TANK, Block G, Lohia Nagar, Ghaziabad, Uttar Pradesh 201001.</p>
                     </div>
                     <iframe
-                        src="https://www.google.com/maps?q=Digital+Display+Panel+Solution+Saini+Compound+Lohia+Nagar+Ghaziabad&output=embed"
+                        src="https://www.google.com/maps?q=Digital+Display+Panel+solution,+SAINI+COMPOUND,+B-59A,+near+WATER+TANK,+Block+G,+Lohia+Nagar,+Ghaziabad,+Uttar+Pradesh+201001&output=embed"
                         width="100%"
                         height="400"
                         style={{ border: 0 }}

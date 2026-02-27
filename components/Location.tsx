@@ -7,13 +7,13 @@ export default function Location() {
                 <div className="text-center mb-16">
                     <h2 className="text-4xl font-bold text-primary mb-4">Our Location</h2>
                     <p className="text-gray-600 max-w-2xl mx-auto text-lg">
-                        Digital Display Panel Solution – Saini Compound, Lohia Nagar, Ghaziabad, Uttar Pradesh 201001
+                        Digital Display Panel Solution, SAINI COMPOUND, B-59A, near WATER TANK, Block G, Lohia Nagar, Ghaziabad, Uttar Pradesh 201001.
                     </p>
                 </div>
                 <div className="max-w-5xl mx-auto">
                     <div className="bg-gray-100 rounded-3xl overflow-hidden shadow-lg border border-gray-100 mb-8">
                         <iframe
-                            src="https://www.google.com/maps?q=Digital+Display+Panel+Solution+Saini+Compound+Lohia+Nagar+Ghaziabad&output=embed"
+                            src="https://www.google.com/maps?q=Digital+Display+Panel+solution,+SAINI+COMPOUND,+B-59A,+near+WATER+TANK,+Block+G,+Lohia+Nagar,+Ghaziabad,+Uttar+Pradesh+201001&output=embed"
                             width="100%"
                             height="400"
                             style={{ border: 0 }}
@@ -26,7 +26,7 @@ export default function Location() {
                     </div>
                     <div className="text-center">
                         <a
-                            href="https://www.google.com/maps/search/?api=1&query=Digital+Display+Panel+Solution+Saini+Compound+Lohia+Nagar+Ghaziabad"
+                            href="https://www.google.com/maps/dir//Digital+Display+Panel+solution,+SAINI+COMPOUND,+B-59A,+near+WATER+TANK,+Block+G,+Lohia+Nagar,+Ghaziabad,+Uttar+Pradesh+201001/"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex bg-primary hover:bg-gray-800 text-white font-bold py-4 px-8 rounded-lg transition-colors items-center justify-center gap-2"
