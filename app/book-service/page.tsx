@@ -34,32 +34,10 @@ export default function BookServicePage() {
             return;
         }
 
-        // Generate auto increment ID locally
-        const year = new Date().getFullYear();
-        let currentCount = parseInt(localStorage.getItem('ddps_booking_count') || "0");
-        currentCount++;
-        localStorage.setItem('ddps_booking_count', currentCount.toString());
-
-        const complaintId = `DDPS-${year}-${currentCount.toString().padStart(4, '0')}`;
-
-        // Append generated ID and User Email to form payload
+        // Prepare basic payload
         const payload = Object.fromEntries(formData);
-        payload.complaintId = complaintId;
         payload.userEmail = userEmail || "Guest";
-
-        // Save local tracking mapping
-        const rawComplaints = localStorage.getItem("ddps_complaints");
-        const complaints = rawComplaints ? JSON.parse(rawComplaints) : [];
-        complaints.push({
-            id: complaintId,
-            userEmail: payload.userEmail,
-            date: new Date().toISOString(),
-            status: "Pending",
-            service: payload.service,
-            address: payload.address,
-            message: payload.message,
-        });
-        localStorage.setItem("ddps_complaints", JSON.stringify(complaints));
+        payload.source = "Logged-in";
 
         try {
             const res = await fetch("/api/book-service", {
@@ -70,6 +48,22 @@ export default function BookServicePage() {
             const data = await res.json();
 
             if (res.ok && data.success) {
+                const complaintId = data.bookingId;
+
+                // Save local tracking mapping
+                const rawComplaints = localStorage.getItem("ddps_complaints");
+                const complaints = rawComplaints ? JSON.parse(rawComplaints) : [];
+                complaints.push({
+                    id: complaintId,
+                    userEmail: payload.userEmail,
+                    date: new Date().toISOString(),
+                    status: "Pending",
+                    service: payload.service,
+                    address: payload.address,
+                    message: payload.message,
+                });
+                localStorage.setItem("ddps_complaints", JSON.stringify(complaints));
+
                 // Pass to success page
                 sessionStorage.setItem("latest_complaint_id", complaintId);
                 router.push("/booking-success");

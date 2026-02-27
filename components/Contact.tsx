@@ -1,18 +1,18 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 
 export default function Contact() {
+    const router = useRouter();
     const [status, setStatus] = useState<string | null>(null);
-    const [bookingId, setBookingId] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsLoading(true);
         setStatus(null);
-        setBookingId(null);
 
         const formData = new FormData(e.currentTarget);
         const botField = formData.get("bot_field");
@@ -20,24 +20,24 @@ export default function Contact() {
         // Honeypot check: If a bot fills this hidden field, silently reject
         if (botField) {
             setIsLoading(false);
-            setStatus("success");
-            setBookingId("DDPS-BOTX");
             (e.target as HTMLFormElement).reset();
             return;
         }
 
         try {
+            const payload = Object.fromEntries(formData);
+            const finalPayload = { ...payload, source: "Home" };
+
             const res = await fetch("/api/book-service", {
                 method: "POST",
-                body: JSON.stringify(Object.fromEntries(formData)),
+                body: JSON.stringify(finalPayload),
             });
 
             const data = await res.json();
 
             if (res.ok && data.success) {
-                setStatus("success");
-                setBookingId(data.bookingId);
-                (e.target as HTMLFormElement).reset();
+                sessionStorage.setItem("latest_complaint_id", data.bookingId);
+                router.push("/booking-success");
             } else {
                 setStatus("error");
             }
@@ -97,18 +97,7 @@ export default function Contact() {
                                 <input type="text" id="bot_field" name="bot_field" tabIndex={-1} autoComplete="off" />
                             </div>
 
-                            {status === "success" && (
-                                <div className="bg-green-50 border border-green-200 text-green-700 p-5 rounded-lg font-medium shadow-sm">
-                                    <div className="text-lg font-bold mb-1">Successfully submitted!</div>
-                                    <p className="text-sm opactiy-90">We will contact you shortly.</p>
-                                    {bookingId && (
-                                        <div className="mt-3 pt-3 border-t border-green-200">
-                                            <span className="text-xs uppercase tracking-wide text-green-600 block">Your Booking Reference ID:</span>
-                                            <span className="font-mono text-xl font-bold tracking-wider">{bookingId}</span>
-                                        </div>
-                                    )}
-                                </div>
-                            )}
+
                             {status === "error" && (
                                 <div className="bg-red-50 text-red-600 p-4 rounded-lg font-medium">An error occurred. Please try again or check your connection.</div>
                             )}
