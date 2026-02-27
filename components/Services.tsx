@@ -1,15 +1,15 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Monitor, Tv, Wrench, Settings, Cpu, Home } from "lucide-react";
+import Image from "next/image";
 
 const services = [
-    { icon: Tv, title: "LED TV Repair", desc: "Expert repair for all major brands and sizes." },
-    { icon: Monitor, title: "Display Panel Replacement", desc: "Original parts with warranty for cracked or broken screens." },
-    { icon: Wrench, title: "Installation", desc: "Professional wall-mounting and setup services." },
-    { icon: Settings, title: "Screen Diagnosis", desc: "Advanced diagnostics to identify root causes of display issues." },
-    { icon: Cpu, title: "Motherboard Repair", desc: "Component-level motherboard repair and replacement." },
-    { icon: Home, title: "Home Service", desc: "Convenient doorstep repair and consultation in Ghaziabad." },
+    { image: "/tv-repair.png", title: "LED TV Repair", desc: "Expert repair for all major brands and sizes." },
+    { image: "/panel-replacement.png", title: "Display Panel Replacement", desc: "Original parts with warranty for cracked or broken screens." },
+    { image: "/installation.png", title: "Installation", desc: "Professional wall-mounting and setup services." },
+    { image: "/diagnosis.png", title: "Screen Diagnosis", desc: "Advanced diagnostics to identify root causes of display issues." },
+    { image: "/motherboard.png", title: "Motherboard Repair", desc: "Component-level motherboard repair and replacement." },
+    { image: "/home-service.png", title: "Home Service", desc: "Convenient doorstep repair and consultation in Ghaziabad." },
 ];
 
 export default function Services() {
@@ -23,7 +23,6 @@ export default function Services() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {services.map((service, idx) => {
-                        const Icon = service.icon;
                         return (
                             <motion.div
                                 key={idx}
@@ -34,7 +33,7 @@ export default function Services() {
                                 className="bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-shadow duration-300 border border-gray-100 group"
                             >
                                 <div className="bg-blue-50 w-16 h-16 rounded-xl flex items-center justify-center mb-6 group-hover:bg-accent group-hover:text-white transition-colors duration-300 text-accent">
-                                    <Icon size={32} />
+                                    <Image src={service.image} alt={service.title} width={32} height={32} className="object-contain" />
                                 </div>
                                 <h3 className="text-xl font-bold mb-3 text-primary">{service.title}</h3>
                                 <p className="text-gray-600 leading-relaxed mb-6">{service.desc}</p>
