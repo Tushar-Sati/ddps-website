@@ -25,29 +25,16 @@ export default function TrackPage() {
     useEffect(() => {
         const authStr = localStorage.getItem("ddpsUser");
         if (!authStr) {
-            router.push("/login");
+            window.location.href = "/login";
             return;
         }
 
-        let email = "";
-        try {
-            const userData = JSON.parse(authStr);
-            if (userData.loggedIn && userData.email) {
-                email = userData.email;
-                setUserEmail(email);
-            } else {
-                router.push("/login");
-                return;
-            }
-        } catch {
-            router.push("/login");
-            return;
-        }
+        setUserEmail(authStr);
 
         const rawComplaints = localStorage.getItem("ddps_complaints");
         if (rawComplaints) {
             const allComplaints: Complaint[] = JSON.parse(rawComplaints);
-            const myComplaints = allComplaints.filter(c => c.userEmail === email);
+            const myComplaints = allComplaints.filter(c => c.userEmail === authStr);
             setUserComplaints(myComplaints.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
         }
 

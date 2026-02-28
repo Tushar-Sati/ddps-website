@@ -15,7 +15,7 @@ export default function LoginPage() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState("");
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError("");
 
@@ -35,39 +35,27 @@ export default function LoginPage() {
             return;
         }
 
-        const usersRaw = localStorage.getItem("ddps_users");
-        let users = usersRaw ? JSON.parse(usersRaw) : [];
+        try {
+            const response = await fetch("https://script.google.com/macros/s/AKfycbzA3z0GxsLGyPLV1AURQJqZNAq-PdrTaTUvrUqylj2yb_gsTJqfEARJzOCGj70hRMc9/exec", {
+                method: "POST",
+                body: JSON.stringify({
+                    action: isLogin ? "login" : "register",
+                    email: email,
+                    password: password
+                })
+            });
 
-        if (isLogin) {
-            // Sign In Logic
-            const user = users.find((u: any) => u.email === email && u.password === password);
-            if (!user) {
-                setError("Invalid email or password.");
-                return;
+            const result = await response.json();
+
+            if (result.success) {
+                localStorage.setItem("ddpsUser", email);
+                window.location.href = "/book-service";
+            } else {
+                alert(result.message || "Authentication failed.");
             }
-        } else {
-            // Sign Up Logic
-            const existingUser = users.find((u: any) => u.email === email);
-            if (existingUser) {
-                setError("An account with this email already exists.");
-                return;
-            }
-            // Create user
-            users.push({ email, password });
-            localStorage.setItem("ddps_users", JSON.stringify(users));
+        } catch (err) {
+            alert("Network error. Please try again.");
         }
-
-        // Maintain persistent session object
-        localStorage.setItem(
-            "ddpsUser",
-            JSON.stringify({
-                email: email,
-                loggedIn: true
-            })
-        );
-        console.log("Logged in gracefully:", email);
-
-        window.location.href = "/book-service";
     };
 
     return (

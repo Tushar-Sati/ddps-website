@@ -17,16 +17,7 @@ export default function Navbar() {
         const checkAuth = () => {
             const auth = localStorage.getItem("ddpsUser");
             if (auth) {
-                try {
-                    const userData = JSON.parse(auth);
-                    if (userData.loggedIn && userData.email) {
-                        setUserEmail(userData.email);
-                    } else {
-                        setUserEmail(null);
-                    }
-                } catch {
-                    setUserEmail(null);
-                }
+                setUserEmail(auth);
             } else {
                 setUserEmail(null);
             }

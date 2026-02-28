@@ -12,20 +12,11 @@ export default function BookServicePage() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        const auth = localStorage.getItem("ddpsUser");
-        if (!auth) {
-            router.push("/login");
+        const user = localStorage.getItem("ddpsUser");
+        if (!user) {
+            window.location.href = "/login";
         } else {
-            try {
-                const userData = JSON.parse(auth);
-                if (userData.loggedIn && userData.email) {
-                    setUserEmail(userData.email);
-                } else {
-                    router.push("/login");
-                }
-            } catch {
-                router.push("/login");
-            }
+            setUserEmail(user);
         }
     }, [router]);
 
@@ -45,37 +36,25 @@ export default function BookServicePage() {
 
         // Prepare basic payload
         const payload = Object.fromEntries(formData);
-        payload.userEmail = userEmail || "Guest";
-        payload.source = "Logged-in";
 
         try {
-            const res = await fetch("/api/book-service", {
+            const response = await fetch("https://script.google.com/macros/s/AKfycbzA3z0GxsLGyPLV1AURQJqZNAq-PdrTaTUvrUqylj2yb_gsTJqfEARJzOCGj70hRMc9/exec", {
                 method: "POST",
-                body: JSON.stringify(payload),
+                body: JSON.stringify({
+                    action: "complaint",
+                    name: payload.name,
+                    phone: payload.phone,
+                    email: localStorage.getItem("ddpsUser"),
+                    service: payload.service,
+                    message: payload.message,
+                    address: payload.address
+                })
             });
 
-            const data = await res.json();
+            const result = await response.json();
 
-            if (res.ok && data.success) {
-                const complaintId = data.bookingId;
-
-                // Save local tracking mapping
-                const rawComplaints = localStorage.getItem("ddps_complaints");
-                const complaints = rawComplaints ? JSON.parse(rawComplaints) : [];
-                complaints.push({
-                    id: complaintId,
-                    userEmail: payload.userEmail,
-                    date: new Date().toISOString(),
-                    status: "Pending",
-                    service: payload.service,
-                    address: payload.address,
-                    message: payload.message,
-                });
-                localStorage.setItem("ddps_complaints", JSON.stringify(complaints));
-
-                // Pass to success page
-                sessionStorage.setItem("latest_complaint_id", complaintId);
-                router.push("/booking-success");
+            if (result.success) {
+                alert("Complaint ID: " + result.complaintId);
             } else {
                 setError("Submission failed. Please try again.");
             }
