@@ -12,11 +12,20 @@ export default function BookServicePage() {
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        const auth = localStorage.getItem("ddps_authenticated");
+        const auth = localStorage.getItem("ddpsUser");
         if (!auth) {
             router.push("/login");
         } else {
-            setUserEmail(auth);
+            try {
+                const userData = JSON.parse(auth);
+                if (userData.loggedIn && userData.email) {
+                    setUserEmail(userData.email);
+                } else {
+                    router.push("/login");
+                }
+            } catch {
+                router.push("/login");
+            }
         }
     }, [router]);
 
@@ -78,8 +87,8 @@ export default function BookServicePage() {
     };
 
     const handleLogout = () => {
-        localStorage.removeItem("ddps_authenticated");
-        router.push("/login");
+        localStorage.removeItem("ddpsUser");
+        window.location.href = "/";
     };
 
     if (!userEmail) {

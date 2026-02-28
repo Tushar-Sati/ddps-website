@@ -23,17 +23,31 @@ export default function TrackPage() {
     const [isLoaded, setIsLoaded] = useState(false);
 
     useEffect(() => {
-        const auth = localStorage.getItem("ddps_authenticated");
-        if (!auth || auth === "true") {
+        const authStr = localStorage.getItem("ddpsUser");
+        if (!authStr) {
             router.push("/login");
             return;
         }
-        setUserEmail(auth);
+
+        let email = "";
+        try {
+            const userData = JSON.parse(authStr);
+            if (userData.loggedIn && userData.email) {
+                email = userData.email;
+                setUserEmail(email);
+            } else {
+                router.push("/login");
+                return;
+            }
+        } catch {
+            router.push("/login");
+            return;
+        }
 
         const rawComplaints = localStorage.getItem("ddps_complaints");
         if (rawComplaints) {
             const allComplaints: Complaint[] = JSON.parse(rawComplaints);
-            const myComplaints = allComplaints.filter(c => c.userEmail === auth);
+            const myComplaints = allComplaints.filter(c => c.userEmail === email);
             setUserComplaints(myComplaints.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
         }
 
@@ -98,8 +112,8 @@ export default function TrackPage() {
                                                 {new Date(complaint.date).toLocaleDateString()}
                                             </span>
                                             <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide border ${complaint.status === 'Pending' ? 'bg-yellow-50 text-yellow-700 border-yellow-200' :
-                                                    complaint.status === 'Completed' ? 'bg-green-50 text-green-700 border-green-200' :
-                                                        'bg-blue-50 text-blue-700 border-blue-200'
+                                                complaint.status === 'Completed' ? 'bg-green-50 text-green-700 border-green-200' :
+                                                    'bg-blue-50 text-blue-700 border-blue-200'
                                                 }`}>
                                                 {complaint.status}
                                             </span>

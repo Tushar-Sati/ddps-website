@@ -15,11 +15,18 @@ export default function Navbar() {
     useEffect(() => {
         // Simple client-side auth state check
         const checkAuth = () => {
-            const auth = localStorage.getItem("ddps_authenticated");
-            if (auth && auth !== "true") {
-                setUserEmail(auth);
-            } else if (auth === "true") {
-                setUserEmail("Customer");
+            const auth = localStorage.getItem("ddpsUser");
+            if (auth) {
+                try {
+                    const userData = JSON.parse(auth);
+                    if (userData.loggedIn && userData.email) {
+                        setUserEmail(userData.email);
+                    } else {
+                        setUserEmail(null);
+                    }
+                } catch {
+                    setUserEmail(null);
+                }
             } else {
                 setUserEmail(null);
             }
@@ -40,9 +47,9 @@ export default function Navbar() {
     }, []);
 
     const handleLogout = () => {
-        localStorage.removeItem("ddps_authenticated");
+        localStorage.removeItem("ddpsUser");
         setUserEmail(null);
-        router.push("/login");
+        window.location.href = "/";
     };
 
     return (

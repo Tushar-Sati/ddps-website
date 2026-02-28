@@ -57,11 +57,17 @@ export default function LoginPage() {
             localStorage.setItem("ddps_users", JSON.stringify(users));
         }
 
-        // Maintain session string explicitly linking to the user
-        localStorage.setItem("ddps_authenticated", email);
+        // Maintain persistent session object
+        localStorage.setItem(
+            "ddpsUser",
+            JSON.stringify({
+                email: email,
+                loggedIn: true
+            })
+        );
         console.log("Logged in gracefully:", email);
 
-        router.push("/book-service");
+        window.location.href = "/book-service";
     };
 
     return (
