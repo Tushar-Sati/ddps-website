@@ -40,7 +40,6 @@ export default function BookServicePage() {
         try {
             const response = await fetch("https://script.google.com/macros/s/AKfycbzA3z0GxsLGyPLV1AURQJqZNAq-PdrTaTUvrUqylj2yb_gsTJqfEARJzOCGj70hRMc9/exec", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     action: "complaint",
                     name: payload.name,
