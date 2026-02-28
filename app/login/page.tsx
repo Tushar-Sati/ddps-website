@@ -45,9 +45,10 @@ export default function LoginPage() {
                     password: password
                 })
             });
+            console.log("Raw Response:", response);
 
             const result = await response.json();
-            console.log("Backend response:", result);
+            console.log("Login API Response:", result);
 
             if (result.success) {
                 localStorage.setItem("ddpsUser", email);
@@ -55,7 +56,8 @@ export default function LoginPage() {
             } else {
                 alert(result.message || "Authentication failed.");
             }
-        } catch (err) {
+        } catch (error) {
+            console.error("API Error:", error);
             alert("Network error. Please try again.");
         }
     };

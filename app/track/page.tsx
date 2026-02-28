@@ -43,13 +43,13 @@ export default function TrackPage() {
                 });
 
                 const result = await response.json();
-                console.log("Backend response:", result);
+                console.log("Tracking API Response:", result);
 
                 if (result.success && result.data) {
                     setUserComplaints(result.data.sort((a: any, b: any) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()));
                 }
-            } catch (err) {
-                console.error(err);
+            } catch (error) {
+                console.error("API Error:", error);
             } finally {
                 setIsLoaded(true);
             }

@@ -53,14 +53,15 @@ export default function BookServicePage() {
             });
 
             const result = await response.json();
-            console.log("Backend response:", result);
+            console.log("Complaint API Response:", result);
 
             if (result.success) {
                 alert("Complaint ID: " + result.complaintId);
             } else {
                 setError("Submission failed. Please try again.");
             }
-        } catch {
+        } catch (error) {
+            console.error("API Error:", error);
             setError("Network error. Please try again.");
         } finally {
             setIsLoading(false);
