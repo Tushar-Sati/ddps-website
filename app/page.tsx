@@ -26,9 +26,9 @@ export default function Home() {
                 <WhyChooseUs />
                 <ServiceProcess />
                 <ServiceCoverage />
+                <Location />
                 <Reviews />
                 <Contact />
-                <Location />
             </main>
             <footer className="bg-primary text-white py-12 text-center">
                 <div className="container mx-auto px-6">
