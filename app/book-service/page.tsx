@@ -10,6 +10,8 @@ export default function BookServicePage() {
     const [userEmail, setUserEmail] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [showModal, setShowModal] = useState(false);
+    const [bookingId, setBookingId] = useState<string | null>(null);
 
     useEffect(() => {
         const user = localStorage.getItem("ddpsUser");
@@ -52,12 +54,13 @@ export default function BookServicePage() {
             });
 
             const result = await response.json();
-            console.log("Complaint API Response:", result);
+            console.log("Booking API Response:", result);
 
             if (result.success) {
-                alert("Complaint ID: " + result.complaintId);
+                setBookingId(result.complaintId);
+                setShowModal(true);
             } else {
-                setError("Submission failed. Please try again.");
+                setError(result.message || "Submission failed. Please try again.");
             }
         } catch (error) {
             console.error("API Error:", error);
@@ -81,7 +84,36 @@ export default function BookServicePage() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 relative">
+            {/* Modal Overlay */}
+            {showModal && (
+                <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="bg-white rounded-xl shadow-2xl p-8 max-w-sm w-full text-center"
+                    >
+                        <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100 mb-6">
+                            <svg className="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                        <h3 className="text-2xl font-bold text-gray-900 mb-3">Booking Confirmed</h3>
+                        <p className="text-gray-600 mb-4 text-lg">
+                            Your Job ID is: <br />
+                            <span className="font-mono font-bold text-primary block mt-2 text-xl">{bookingId}</span>
+                        </p>
+                        <p className="text-sm text-gray-400 mb-8">Please save this ID to track your repair status.</p>
+                        <button
+                            onClick={() => window.location.href = "/track"}
+                            className="w-full bg-primary text-white font-bold py-3 px-4 rounded-lg hover:bg-gray-800 transition-colors shadow-md"
+                        >
+                            OK
+                        </button>
+                    </motion.div>
+                </div>
+            )}
+
             <div className="max-w-3xl mx-auto">
                 <div className="flex justify-between items-center mb-8">
                     <Link href="/" className="text-xl font-bold text-primary">
