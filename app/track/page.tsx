@@ -35,6 +35,7 @@ export default function TrackPage() {
             try {
                 const response = await fetch("https://script.google.com/macros/s/AKfycbzA3z0GxsLGyPLV1AURQJqZNAq-PdrTaTUvrUqylj2yb_gsTJqfEARJzOCGj70hRMc9/exec", {
                     method: "POST",
+                    headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
                         action: "getUserComplaints",
                         email: authStr
@@ -42,6 +43,7 @@ export default function TrackPage() {
                 });
 
                 const result = await response.json();
+                console.log("Backend response:", result);
 
                 if (result.success && result.data) {
                     setUserComplaints(result.data.sort((a: any, b: any) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()));
