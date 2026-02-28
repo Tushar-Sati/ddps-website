@@ -5,13 +5,13 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
-    metadataBase: new URL('https://ddps-tvrepair.com'), // Replace with final production URL
+    metadataBase: new URL('https://www.digitaldisplaypanelsolution.com'),
     title: {
-        default: "LED TV Repair in Ghaziabad | Lohia Nagar | DDPS",
+        default: "LED TV Repair in Ghaziabad | Display, Panel & Motherboard Repair – Digital Display Panel Solution",
         template: "%s | DDPS TV Repair",
     },
-    description: "Top-rated LED TV repair in Ghaziabad and Lohia Nagar. Digital Display Panel Solution (DDPS) offers reliable, guaranteed TV panel replacements and 24/7 emergency repairs.",
-    keywords: ["TV Repair Ghaziabad", "LED TV Repair Lohia Nagar", "Display Panel Replacement", "TV Screen Repair", "Emergency TV Repair NCR"],
+    description: "Professional LED TV repair in Ghaziabad including display panel replacement, screen repair and motherboard repair. Doorstep TV service in Lohia Nagar, Indirapuram, Vaishali and nearby areas.",
+    keywords: ["TV Repair Ghaziabad", "LED TV display repair", "Panel replacement", "Motherboard repair", "Screen repair", "TV service at home"],
     authors: [{ name: "DDPS" }],
     creator: "Digital Display Panel Solution",
     alternates: {
@@ -48,14 +48,20 @@ const jsonLd = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "name": "Digital Display Panel Solution",
-    "telephone": "+91 9810845788",
+    "telephone": "+919810845788",
+    "url": "https://www.digitaldisplaypanelsolution.com",
     "address": {
         "@type": "PostalAddress",
-        "streetAddress": "SAINI COMPOUND, B-59A, Near Water Tank, Block G, Lohia Nagar",
+        "streetAddress": "SAINI COMPOUND, B-59A, near WATER TANK, Block G, Lohia Nagar",
         "addressLocality": "Ghaziabad",
         "addressRegion": "Uttar Pradesh",
         "postalCode": "201001",
         "addressCountry": "IN"
+    },
+    "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5.0",
+        "reviewCount": "189"
     },
     "areaServed": "Ghaziabad, NCR",
     "sameAs": [

@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import dynamic from "next/dynamic";
 
+const SEOContent = dynamic(() => import("@/components/SEOContent"), { ssr: false });
 const AnimatedStats = dynamic(() => import("@/components/AnimatedStats"), { ssr: false });
 const About = dynamic(() => import("@/components/About"));
 const Services = dynamic(() => import("@/components/Services"));
@@ -20,6 +21,7 @@ export default function Home() {
             <Navbar />
             <main className="min-h-screen">
                 <Hero />
+                <SEOContent />
                 <AnimatedStats />
                 <About />
                 <Services />

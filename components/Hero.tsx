@@ -37,7 +37,7 @@ export default function Hero() {
                         transition={{ duration: 0.5 }}
                         className="text-5xl md:text-7xl font-bold mb-6 leading-tight"
                     >
-                        Expert TV Repair in Ghaziabad
+                        LED TV Repair & Display Panel Replacement in Ghaziabad
                     </motion.h1>
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
