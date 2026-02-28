@@ -70,9 +70,17 @@ export default function TrackPage() {
             <div className="max-w-4xl mx-auto">
                 <div className="flex justify-between items-center mb-10">
                     <h1 className="text-3xl font-bold text-primary">Track My Repairs</h1>
-                    <Link href="/book-service" className="text-accent font-medium hover:text-blue-500 transition-colors">
-                        + New Booking
-                    </Link>
+                    <div className="flex items-center gap-4">
+                        <button
+                            onClick={() => router.push("/")}
+                            className="px-4 py-2 border border-gray-300 rounded-md hover:bg-gray-100 transition text-sm font-medium text-gray-700"
+                        >
+                            Home
+                        </button>
+                        <Link href="/book-service" className="text-accent font-medium hover:text-blue-500 transition-colors">
+                            + New Booking
+                        </Link>
+                    </div>
                 </div>
 
                 <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
