@@ -7,12 +7,12 @@ import Link from "next/link";
 import { Search } from "lucide-react";
 
 type Complaint = {
-    id: string;
-    userEmail: string;
-    date: string;
+    complaintId: string;
+    email?: string;
+    timestamp: string;
     status: string;
     service: string;
-    address: string;
+    address?: string;
     message: string;
 };
 
@@ -31,15 +31,30 @@ export default function TrackPage() {
 
         setUserEmail(authStr);
 
-        const rawComplaints = localStorage.getItem("ddps_complaints");
-        if (rawComplaints) {
-            const allComplaints: Complaint[] = JSON.parse(rawComplaints);
-            const myComplaints = allComplaints.filter(c => c.userEmail === authStr);
-            setUserComplaints(myComplaints.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()));
-        }
+        const fetchComplaints = async () => {
+            try {
+                const response = await fetch("https://script.google.com/macros/s/AKfycbzA3z0GxsLGyPLV1AURQJqZNAq-PdrTaTUvrUqylj2yb_gsTJqfEARJzOCGj70hRMc9/exec", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        action: "getUserComplaints",
+                        email: authStr
+                    })
+                });
 
-        setIsLoaded(true);
-    }, [router]);
+                const result = await response.json();
+
+                if (result.success && result.data) {
+                    setUserComplaints(result.data.sort((a: any, b: any) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()));
+                }
+            } catch (err) {
+                console.error(err);
+            } finally {
+                setIsLoaded(true);
+            }
+        };
+
+        fetchComplaints();
+    }, []);
 
     if (!isLoaded) {
         return (
@@ -73,7 +88,7 @@ export default function TrackPage() {
                     {userComplaints.length === 0 ? (
                         <div className="text-center py-16">
                             <Search className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-                            <h3 className="text-lg font-medium text-gray-900">No repair requests found</h3>
+                            <h3 className="text-lg font-medium text-gray-900">No complaints found.</h3>
                             <p className="text-gray-500 mt-2">You haven't made any service bookings yet.</p>
                             <Link href="/book-service" className="mt-6 inline-block bg-primary text-white font-bold py-2 px-6 rounded-lg hover:bg-gray-800 transition-colors">
                                 Book a Service
@@ -83,7 +98,7 @@ export default function TrackPage() {
                         <div className="space-y-6">
                             {userComplaints.map((complaint, idx) => (
                                 <motion.div
-                                    key={complaint.id}
+                                    key={complaint.complaintId || idx}
                                     initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: idx * 0.1 }}
@@ -92,17 +107,17 @@ export default function TrackPage() {
                                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
                                         <div>
                                             <span className="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-1">Complaint ID</span>
-                                            <span className="font-mono text-lg font-bold text-primary">{complaint.id}</span>
+                                            <span className="font-mono text-lg font-bold text-primary">{complaint.complaintId}</span>
                                         </div>
                                         <div className="flex items-center gap-3">
                                             <span className="text-sm text-gray-500">
-                                                {new Date(complaint.date).toLocaleDateString()}
+                                                {complaint.timestamp ? new Date(complaint.timestamp).toLocaleDateString() : ""}
                                             </span>
                                             <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide border ${complaint.status === 'Pending' ? 'bg-yellow-50 text-yellow-700 border-yellow-200' :
                                                 complaint.status === 'Completed' ? 'bg-green-50 text-green-700 border-green-200' :
                                                     'bg-blue-50 text-blue-700 border-blue-200'
                                                 }`}>
-                                                {complaint.status}
+                                                {complaint.status || 'Pending'}
                                             </span>
                                         </div>
                                     </div>
@@ -110,7 +125,7 @@ export default function TrackPage() {
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm mt-4 pt-4 border-t border-gray-200">
                                         <div>
                                             <span className="text-gray-500 block">Service Type</span>
-                                            <span className="font-medium text-gray-900 capitalize">{complaint.service?.replace("-", " ")}</span>
+                                            <span className="font-medium text-gray-900 capitalize">{complaint.service?.replace(/-/g, " ")}</span>
                                         </div>
                                         <div>
                                             <span className="text-gray-500 block">Issue Description</span>
