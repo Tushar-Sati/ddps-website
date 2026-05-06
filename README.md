@@ -122,10 +122,4 @@ npm start
 
 ---
 
-## 📄 License
-
-This project is open source and available (LICENSE).
-
----
-
 ⭐ **If you found this project helpful, consider giving it a star!**
